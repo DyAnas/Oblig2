@@ -15,8 +15,8 @@ public class main {
         //DobbeltLenketListe<String> l1= new DobbeltLenketListe<> (s1);
         DobbeltLenketListe<String> l2= new DobbeltLenketListe<> (s2);
         DobbeltLenketListe<String> l3= new DobbeltLenketListe<> (s3);
-        System.out.println (" "+l2.toString ()+" "+
-                l3.toString ()+" "+ "  "+
+        System.out.println (" "+l2.toString ()+l2.antall ()+
+                l3.toString ()+l3.antall ()+ "  "+
                 l2.omvendtString ()+" "+l3.omvendtString ());
 
         // sjekke for oppgave 2b

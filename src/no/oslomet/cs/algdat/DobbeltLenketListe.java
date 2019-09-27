@@ -55,13 +55,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         if (a == null) {
             throw new NullPointerException ("Tabellen " + a + " er tom");
         }
-        hale = hode = new Node<> (a[0]);
+
         int i = 0;
         // finn den første i som ikke er null
-        for (; i < a.length && a[i] != null; i++) ;
+        for (; i < a.length && a[i] != null; i++)  ;
 
         if (i < a.length) {
 
+            hale = hode = new Node<> (a[i]);
             Node<T> p = hode; // lage ny node p
             p.verdi = a[i]; // sette verdi for første node som ikke er null  i array
             antall = 1;                                 // vi har minst en node
