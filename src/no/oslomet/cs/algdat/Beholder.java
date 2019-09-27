@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.function.Predicate;
 
 public interface Beholder<T> extends Iterable<T> {
-    public boolean leggInn(T t);       // legger inn t i beholderen
+    public boolean leggInn(T t);       // legger inn t i beholder
 
     public boolean inneholder(T t);    // sjekker om den inneholder t
 
