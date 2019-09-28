@@ -47,26 +47,39 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public DobbeltLenketListe(T[] a) {
-        this (); // alle variablene er nullet
+        this();   // alle variablene er nullet
+
+
         if (a == null) {
             throw new NullPointerException ("Tabellen " + a + " er tom");
         }
 
         int i = 0;
         // finn den første i som ikke er null
-        for (; i < a.length && a[i] != null; i++) ;
+        for (; i < a.length ; i++) {
+            if (a[i] !=null){
+                break;
+            }
+        }
 
-        if (i < a.length) {
+      if (i < a.length) {
             hale = hode = new Node<> (a[i]);
             Node<T> p = hode; // lage ny node p
+
             p.verdi = a[i]; // sette verdi for første node som ikke er null  i array
-            antall = 1;                                 // vi har minst en node
-            for (; i < a.length; i++) {
+            antall++;                                 // vi har minst en node
+
+            for (i++; i < a.length; i++) {
+                if(a.length==1){
+                    break;
+                }
+
                 if (a[i] != null) {
                     Node<T> q = new Node<> (a[i]); // lage nye node q
+
                     q.forrige = p;
                     p.neste = q;
-                    p = q;
+                   p = q;
                     hale = q;
                     antall++;
                 }
@@ -90,18 +103,17 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     // fjerner den midlertidige noden
     public Liste<T> subliste(int fra, int til) {
+
+        fratilKontroll(antall(),fra,til);
         DobbeltLenketListe<T> liste = new DobbeltLenketListe<T>();
-                fratilKontroll(liste.antall(), fra,til);
          Node<T> p= hode;
          int i = 0;
          while (p != null){
              if (i> fra && i < til){
-                 liste.leggInn (p.verdi);
-
+                 liste.leggInn (liste.hent (i));
              }
              p=p.neste;
              i++;
-
          }
          return liste;
     }
@@ -140,7 +152,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         Node<T> q = new Node<> (verdi, null, null);
         Node<T> p = new Node<> (verdi, hale, null);
         if (tom ()) {
-            hale = hode = q;
+            hode = hale = q;
         } else {
             hale = hale.neste = p;
         }
@@ -152,12 +164,45 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void leggInn(int indeks, T verdi) {
-        throw new NotImplementedException ();
+      if (indeks < 0 || indeks > antall ())
+          throw  new IndexOutOfBoundsException ();
+       if(verdi==null) throw new NullPointerException ();
+      if (indeks==0){
+         Node<T> p = new Node<>(verdi);
+         p.neste= hode;
+         hode.forrige=p;
+         hode=p;
+       } else if (indeks==antall()){
+          Node<T> q= new Node<T>(verdi);
+           hale.neste = q;
+           q.forrige=hale;
+           hale=q;
+      }
+      else {
+          Node<T> p = hode;
+          for (int i = 0; i < indeks; i++) p = p.neste;
+          p = new Node<T>(verdi, p.forrige, p);
+          p.neste.forrige = p.forrige.neste = p;
+          /*
+           Node<T> p = finnNode (indeks-1);
+           Node<T> q= new Node<> (verdi);
+           Node<T> r = finnNode (indeks);
+           p.neste=q;
+           q.forrige = p;
+           r.verdi=q.verdi;
+
+         //  q.neste=r;
+           oppdater (indeks,q.verdi);
+           q.verdi=p.verdi;
+          // r.forrige=q;*/
+      }
+      antall++;
+      endringer++;
     }
 
     @Override
     public boolean inneholder(T verdi) {
-        throw new NotImplementedException ();
+      return indeksTil (verdi) !=-1;
     }
 
     @Override
@@ -168,7 +213,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public int indeksTil(T verdi) {
-        throw new NotImplementedException ();
+        if (verdi==null) return -1;
+           Node<T> p = hode;
+           for(int i= 0; i< antall; i++  ){
+               if (p.verdi.equals (verdi)) return i;
+               p=p.neste;
+           }
+           return -1;
     }
 
     @Override
