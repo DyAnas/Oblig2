@@ -101,37 +101,40 @@ public class DobbeltLenketListe<T> implements Liste<T> {
                     ("fra(" + fra + ") > til(" + til + ") - illegalt intervall!");
     }
 
-    // fjerner den midlertidige noden
+
     public Liste<T> subliste(int fra, int til) {
 
-        fratilKontroll(antall(),fra,til);
+     fratilKontroll(antall,fra,til);
         DobbeltLenketListe<T> liste = new DobbeltLenketListe<T>();
-         Node<T> p= hode;
-         int i = 0;
-         while (p != null){
-             if (i> fra && i < til){
-                 liste.leggInn (liste.hent (i));
-             }
-             p=p.neste;
-             i++;
-         }
+        Node<T>q =hode;
+        int i= fra;
+
+
+      for (; i < til; i++) {
+          q = finnNode (i);
+          if (q != null) {
+              liste.leggInn (q.verdi);
+              q = q.neste;
+          }
+      }
          return liste;
+
     }
 
     private Node<T> finnNode(int indeks) {
+        Node<T> p;
 
         if (indeks < antall / 2) {
-            Node<T> p = hode;
-            for (int i = 0; i < indeks; i++) {
-                p = p.neste;
-                return p;
-            }
+            p = hode;
+            for (int i = 0; i < indeks; i++) p = p.neste;
+        } else {
+            p = hale;
+            for (int i = antall - 1; i > indeks; i--) p = p.forrige;
         }
-        Node<T> q = hale;
-        for (int i = 0; i < indeks; i++) q = q.forrige;
-        return q;
 
+        return p;
     }
+
 
     @Override
     public int antall() {
@@ -181,20 +184,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
       else {
           Node<T> p = hode;
           for (int i = 0; i < indeks; i++) p = p.neste;
-          p = new Node<T>(verdi, p.forrige, p);
-          p.neste.forrige = p.forrige.neste = p;
-          /*
-           Node<T> p = finnNode (indeks-1);
-           Node<T> q= new Node<> (verdi);
-           Node<T> r = finnNode (indeks);
-           p.neste=q;
-           q.forrige = p;
-           r.verdi=q.verdi;
-
-         //  q.neste=r;
-           oppdater (indeks,q.verdi);
-           q.verdi=p.verdi;
-          // r.forrige=q;*/
+          Node <T> q = new Node<T>(verdi, p.forrige, p);
+          p=q;
+         q.forrige.neste = p.neste.forrige =p;
       }
       antall++;
       endringer++;
@@ -267,7 +259,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             while (p != null)  // tar med resten hvis det er noe mer
             {
 
-                if (p.verdi != null) s.append (',').append (p.verdi);
+                if (p.verdi != null) s.append (',').append (' ').append (p.verdi);
                 p = p.neste;
             }
         }

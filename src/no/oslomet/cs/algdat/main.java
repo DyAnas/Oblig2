@@ -33,18 +33,22 @@ public class main {
             liste1.leggInn (i);
             System.out.println (liste1.toString ()+" "+liste1.omvendtString ());
         }
-     // sjekke oppgave 3
+
+
+        // sjekke oppgave 3
         System.out.println ("---------------oppgave 3---------------");
         Character[] c = {'A','B','c','D','e','f','g','h','i','j',};
 
       DobbeltLenketListe <Character> list=new DobbeltLenketListe<> (c);
       //list.leggInn ('a');
-     /*  System.out.println (list.subliste (3,5));
+       System.out.println (list.subliste (3,8));
         System.out.println (list.subliste (5,5));
         System.out.println (list.subliste (8,list.antall ()));
-      //  System.out.println (list.subliste (0,11));
-        System.out.println (list.toString ());*/
-        // skejkke oppgave 4
+      // System.out.println (list.subliste (0,11));
+
+
+
+     // skejkke oppgave 4
         System.out.println ("---------------oppgave 4---------------");
         System.out.println ("Indeks til 1: "+ liste1.indeksTil (1));
         System.out.println ("tall 4 innholder i liste{1,2,3}: "+ liste1.inneholder (5));
