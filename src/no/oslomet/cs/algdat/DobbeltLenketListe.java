@@ -231,8 +231,38 @@ public class DobbeltLenketListe<T> implements Liste<T> {
            return false;
        }
        Node<T> p= hode;
-         return true;
 
+    if (p==null) return false; //  return false hvis node er lik null
+
+
+        while (p !=null){
+            if (p.verdi.equals (verdi)){
+                break;
+            }
+            p=p.neste;
+        }
+        // fjerne node hvis den ligger i første
+          if (p==hode){
+              hode = hode.neste;
+              if (hode != null){
+                  hode.forrige=null;
+              }else{
+                  hale=null;
+              }
+          }
+          // hvis node ligger bakerst
+          else if (hode ==null){
+              hale = hale.forrige;
+              hale.neste=null;
+          } else {
+              p.forrige.neste=p.neste;
+              p.neste.forrige=p.forrige;
+          }
+          p.verdi=null;
+          p.forrige=p.neste=null;
+          antall--;
+          endringer++;
+          return true;
     }
 
     @Override
@@ -252,8 +282,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         else{
             Node <T>q=finnNode (indeks-1);
             p= q.neste;
-            p.neste= p.neste.neste;
-            p.neste.forrige=p;
+            q.neste= q.neste.neste;
+            q.neste.forrige=q;
         }
       antall--;
         endringer++;
@@ -262,7 +292,20 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void nullstill() {
-        throw new NotImplementedException ();
+        Node<T> p = hode, q = null;
+
+        while (p != null)
+        {
+            q = p.neste;
+            p.neste = null;
+            p.verdi = null;
+            p = q;
+        }
+
+        hode = hale = null;
+        antall = 0;
+        endringer++;
+
     }
 
     @Override
